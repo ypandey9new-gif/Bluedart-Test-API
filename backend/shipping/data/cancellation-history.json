@@ -1,0 +1,78 @@
+[ {
+  "awbNo" : "90001492814",
+  "status" : "Success",
+  "message" : "Your registered shipment 90001492814 has been cancelled successfully",
+  "cancelledAt" : [ 2026, 1, 14, 13, 1, 2, 985139290 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001492825",
+  "status" : "Success",
+  "message" : "Your registered shipment 90001492825 has been cancelled successfully",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 441942302 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001492825",
+  "status" : "SUCCESS",
+  "message" : "Your registered shipment 90001492825 has been cancelled successfully",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 443727943 ],
+  "source" : "BULK",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481544",
+  "status" : "Failed",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481544\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 593792549 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481544",
+  "status" : "FAILED",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481544\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 594791602 ],
+  "source" : "BULK",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481706",
+  "status" : "Failed",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481706\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 706962160 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481706",
+  "status" : "FAILED",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481706\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 709443561 ],
+  "source" : "BULK",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481710",
+  "status" : "Failed",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481710\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 822236737 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481710",
+  "status" : "FAILED",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481710\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 823492810 ],
+  "source" : "BULK",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481721",
+  "status" : "Failed",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481721\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 953788300 ],
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001481721",
+  "status" : "FAILED",
+  "message" : "400 Bad Request on POST request for \"https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill\": \"<EOL>            {\"status\":400,<EOL>            \"title\":\"Bad Request\",<EOL>            \"error-response\":[{\"AWBNo\":\"90001481721\",\"IsError\":true,\"Status\":[{\"StatusCode\":\"CancelFailure\",\"StatusInformation\":\"Waybill Number has been already cancelled.\"}]}]}\"",
+  "cancelledAt" : [ 2026, 1, 14, 13, 3, 3, 959702942 ],
+  "source" : "BULK",
+  "requestedBy" : "SYSTEM"
+} ]

@@ -5,6 +5,7 @@
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/BulkCancelResponse.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/BulkCancelResult.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/BulkWaybillResult.java
+/workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelHistoryRecord.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelWaybillRequest.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelWaybillResponse.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/FailureRow.java
@@ -18,5 +19,6 @@
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/BulkWaybillExcelService.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/BulkWaybillFileParser.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/BulkWaybillTemplateService.java
+/workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/CancelHistoryFileService.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/WaybillCancellationService.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/service/WaybillPdfService.java

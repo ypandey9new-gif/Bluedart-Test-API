@@ -1,10 +1,14 @@
 package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.dto.CancelHistoryRecord;
 import com.example.demo.dto.CancelWaybillRequest;
 import com.example.demo.dto.CancelWaybillResponse;
 
@@ -24,10 +28,12 @@ public class WaybillCancellationService {
 
     private final BluedartAuthService bluedartAuthService;
     private final RestTemplate restTemplate;
+    private CancelHistoryFileService historyService;
     private String baseUrl="https://apigateway-sandbox.bluedart.com/in/transportation/waybill/v1/CancelWaybill";
 
-    public WaybillCancellationService(BluedartAuthService bluedartAuthService) {
+    public WaybillCancellationService(BluedartAuthService bluedartAuthService,CancelHistoryFileService historyService) {
         this.bluedartAuthService = bluedartAuthService;
+        this.historyService=historyService;
         this.restTemplate = new RestTemplate();
     }
 
@@ -57,17 +63,43 @@ public class WaybillCancellationService {
     HttpHeaders headers = new HttpHeaders();
     headers.set("JWTToken", jwtToken);
 
-
-
     headers.setContentType(MediaType.APPLICATION_JSON);
     HttpEntity<CancelWaybillRequest> entity =
             new HttpEntity<>(request, headers);
+     try {       
     ResponseEntity<CancelWaybillResponse> response = restTemplate.exchange(
             baseUrl, HttpMethod.POST, entity, CancelWaybillResponse.class); 
 
-    return response.getBody();  
-    }
-    
-    
+    CancelWaybillResponse body= response.getBody();  
 
+    boolean IsError=body.getCancelWaybillResult().getIsError();
+    String message=body.getCancelWaybillResult().getStatus().get(0).getStatusInformation(); 
+
+    historyService.save(
+        new CancelHistoryRecord(awbNo,IsError?"Failed":"Success",
+            message,
+            LocalDateTime.now(),
+            "SINGLE",
+            "SYSTEM"
+        )
+    );
+
+    return body;
+        
+    } catch(Exception ex) {
+
+        historyService.save(
+            new CancelHistoryRecord(
+                awbNo,
+                "Failed",
+                ex.getMessage(),
+                LocalDateTime.now(),
+                "SINGLE",
+                "SYSTEM"
+            )
+        );
+
+        throw ex;
+    }  
+}
 }
