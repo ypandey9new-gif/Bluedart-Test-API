@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CancelHistoryRecord {
     private String awbNo;
-    private String status;
+    private CancelStatus status;
     private String message;
     private LocalDateTime cancelledAt;
     private String source;

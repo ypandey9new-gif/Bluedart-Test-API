@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.nio.charset.StandardCharsets;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 
 
 
@@ -25,6 +27,7 @@ public class CancelHistoryFileService {
     public CancelHistoryFileService() throws IOException {
         this.objectMapper=new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         Path baseDir=Paths.get(DATA_DIR);
         if(!Files.exists(baseDir)) {
@@ -42,20 +45,21 @@ public class CancelHistoryFileService {
 
         try {
 
-            List<CancelHistoryRecord> records=readAll();
+            List<CancelHistoryRecord> records= objectMapper.readValue(filePath.toFile(),
+            new TypeReference<List<CancelHistoryRecord>>() {});  //readAll();
             records.add(record);
             objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(filePath.toFile(), records);
+                    .writeValue(filePath.toFile(), records);    
         } catch(IOException e) {
             throw new RuntimeException("Failed to save cancellation history", e);
         }
     }
 
-    public List<CancelHistoryRecord> readAll() throws IOException {
-        return objectMapper.readValue(
-            filePath.toFile(),
-            new TypeReference<List<CancelHistoryRecord>>(){}
-        );
-    }
+    // public List<CancelHistoryRecord> readAll() throws IOException {
+    //     return objectMapper.readValue(
+    //         filePath.toFile(),
+    //         new TypeReference<List<CancelHistoryRecord>>(){}
+    //     );
+    // }
 
 }

@@ -7,6 +7,7 @@ import com.example.demo.service.BulkWaybillTemplateService;
 import com.example.demo.service.BulkWaybillFileParser;
 import org.springframework.web.multipart.MultipartFile; 
 import com.example.demo.dto.BulkWaybillResult;
+import com.example.demo.dto.CancelStatus;
 import com.example.demo.dto.CancelWaybillResponse;
 
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,15 @@ import org.springframework.http.ResponseEntity;
 import com.example.demo.service.WaybillCancellationService;
 import com.example.demo.dto.BulkCancelResponse;
 import com.example.demo.service.BulkCancelService;
+import com.example.demo.service.CancelHistoryFileService;
+import java.util.Collections;
+import org.springframework.http.HttpStatus;
+import com.example.demo.dto.CancelHistoryRecord;
 
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -39,9 +45,15 @@ public class BluedartWaybillController {
     private final BulkWaybillExcelService excelService;
     private final WaybillCancellationService cancellationService;
     private final BulkCancelService bulkCancelService;
+    private final CancelHistoryFileService historyService;
     
     public BluedartWaybillController(BluedartWaybillService waybillService, WaybillFileRepository repository, 
-        WaybillPdfService pdfService,BulkWaybillTemplateService  templateService, BulkWaybillFileParser bulkFileParser, BulkWaybillExcelService excelService, WaybillCancellationService cancellationService,BulkCancelService bulkCancelService) {
+        WaybillPdfService pdfService,BulkWaybillTemplateService  templateService, BulkWaybillFileParser bulkFileParser, 
+        BulkWaybillExcelService excelService, 
+        WaybillCancellationService cancellationService,
+        BulkCancelService bulkCancelService,
+        CancelHistoryFileService historyService
+        ) {
         this.waybillService = waybillService;
         this.repository = repository;
         this.pdfService = pdfService;
@@ -50,6 +62,7 @@ public class BluedartWaybillController {
         this.excelService=excelService;
         this.cancellationService=cancellationService;
         this.bulkCancelService=bulkCancelService;
+        this.historyService=historyService;
     }
 
     @PostMapping("/waybill")
@@ -162,8 +175,58 @@ private ResponseEntity<byte[]> fileResponse(String name) throws Exception {
 public ResponseEntity<?> cancelWaybill(@RequestParam String awbNo) {
     System.out.println("✅ Backend received cancel waybill request for AWB No: " + awbNo);
 
-    CancelWaybillResponse response = cancellationService.cancelWaybill(awbNo);
+    try {
+    CancelWaybillResponse response = cancellationService.cancelWaybillInternal(awbNo);
+    String message = "Cancellation processed";
+
+    boolean isError=response.getCancelWaybillResult().getIsError();
+
+    // String message=response.getCancelWaybillResult()
+    //                 .getStatus()
+    //                 .get(0)
+    //                 .getStatusInformation();
+
+if (response.getCancelWaybillResult() != null
+    && response.getCancelWaybillResult().getStatus() != null
+    && !response.getCancelWaybillResult().getStatus().isEmpty()) {
+
+    message = response.getCancelWaybillResult()
+                      .getStatus().get(0)
+                      .getStatusInformation();
+}
+
+    CancelStatus status=isError ? CancelStatus.FAILED : CancelStatus.SUCCESS;
+    historyService.save(
+        new CancelHistoryRecord(
+            awbNo,  
+            status,
+            message,
+            LocalDateTime.now(),
+            "SINGLE",
+            "SYSTEM"
+            )       
+        );
+                    
     return ResponseEntity.ok(response);
+    } catch(Exception ex) {
+
+        // 🔴 Save failure history even if API fails
+        historyService.save(
+            new CancelHistoryRecord(
+                awbNo,
+                CancelStatus.FAILED,
+                ex.getMessage(),
+                LocalDateTime.now(),
+                "SINGLE",
+                "SYSTEM"
+            )
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Waybill cancellation failed");
+
+    }
 }
 
 @PostMapping(value="/cancel/bulk", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)

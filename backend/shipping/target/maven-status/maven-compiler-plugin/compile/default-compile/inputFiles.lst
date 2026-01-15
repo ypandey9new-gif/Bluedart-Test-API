@@ -6,6 +6,7 @@
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/BulkCancelResult.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/BulkWaybillResult.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelHistoryRecord.java
+/workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelStatus.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelWaybillRequest.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/CancelWaybillResponse.java
 /workspaces/Bluedart-Test-API/backend/shipping/src/main/java/com/example/demo/dto/FailureRow.java

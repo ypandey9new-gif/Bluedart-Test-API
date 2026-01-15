@@ -17,6 +17,9 @@ import com.example.demo.dto.BulkCancelResponse;
 import com.example.demo.dto.BulkCancelResult;
 import com.example.demo.dto.CancelWaybillResponse;
 import com.example.demo.dto.CancelHistoryRecord;
+import com.example.demo.dto.CancelStatus;
+
+import org.apache.poi.ss.usermodel.DataFormatter;
 
 @Service
 public class BulkCancelService {
@@ -70,7 +73,7 @@ public class BulkCancelService {
                 try {
                     // 🔹 Call existing single-cancel logic
                     CancelWaybillResponse response =
-                            waybillCancellationService.cancelWaybill(awbNo);
+                            waybillCancellationService.cancelWaybillInternal(awbNo);
 
                     boolean isError =
                             response.getCancelWaybillResult().getIsError();
@@ -81,23 +84,30 @@ public class BulkCancelService {
                                     .get(0)
                                     .getStatusInformation();
 
+                CancelStatus status =
+                            isError ? CancelStatus.FAILED : CancelStatus.SUCCESS;                    
+
                     if (!isError) {
                         success++;
-                        results.add(
-                                new BulkCancelResult(awbNo, "SUCCESS", message)
-                        );
+                        // results.add(
+                        //         new BulkCancelResult(awbNo, "SUCCESS", message)
+                        // );
                     } else {
                         failed++;
-                        results.add(
-                                new BulkCancelResult(awbNo, "FAILED", message)
-                        );
+                        // results.add(
+                        //         new BulkCancelResult(awbNo, "FAILED", message)
+                        // );
                     }
+
+                     results.add(
+                        new BulkCancelResult(awbNo, status, message)
+                    );
 
                     // 🔹 Save history (SUCCESS / FAILED from API)
                     historyService.save(
                             new CancelHistoryRecord(
                                     awbNo,
-                                    isError ? "FAILED" : "SUCCESS",
+                                    status,
                                     message,
                                     LocalDateTime.now(),
                                     "BULK",
@@ -111,7 +121,7 @@ public class BulkCancelService {
                     results.add(
                             new BulkCancelResult(
                                     awbNo,
-                                    "FAILED",
+                                    CancelStatus.FAILED,
                                     ex.getMessage()
                             )
                     );
@@ -120,7 +130,7 @@ public class BulkCancelService {
                     historyService.save(
                             new CancelHistoryRecord(
                                     awbNo,
-                                    "FAILED",
+                                    CancelStatus.FAILED,
                                     ex.getMessage(),
                                     LocalDateTime.now(),
                                     "BULK",
