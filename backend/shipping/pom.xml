@@ -98,6 +98,12 @@
     <version>1.10.0</version>
 </dependency>
 
+<!-- For WebClient -->
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
 		
 	</dependencies>
 
