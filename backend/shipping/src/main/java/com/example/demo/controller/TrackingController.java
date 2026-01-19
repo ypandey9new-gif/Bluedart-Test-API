@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @CrossOrigin(origins = "*")
@@ -29,12 +30,14 @@ public class TrackingController {
     }
 
     @GetMapping("/{awb}")
-public ResponseEntity<?> track(@PathVariable String awb) {
+public ResponseEntity<Object> track(@PathVariable String awb) {
     System.out.println("Controller executing..");
     try {
         String responseXml = trackingService.trackShipment(awb);
         JsonNode json = parseXmlToJson(responseXml);
-        return ResponseEntity.ok(json);
+        ObjectMapper objectMapper=new ObjectMapper();
+        Object jsObject=objectMapper.convertValue(json,Object.class);
+        return ResponseEntity.ok(jsObject);
     } catch (Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }

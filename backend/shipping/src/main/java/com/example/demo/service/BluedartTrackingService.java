@@ -1,72 +1,63 @@
 package com.example.demo.service;
 
-import org.springframework.http.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.http.*;
 import java.util.List;
 
 @Service
 public class BluedartTrackingService {
 
-@Value("${track-url}")
-private String baseUrl;
+    @Value("${track-url}")
+    private String baseUrl;
 
-@Value("${loginid}")
-private String loginId;
+    @Value("${tracking-path}")
+    private String trackingPath;
 
-@Value("${lickey}")
-private String licenseKey;
+    @Value("${loginid}")
+    private String loginId;
 
-@Value("${tracking-path}")
-private String trackingPath;
+    @Value("${lickey}")
+    private String licenseKey;
 
-private final BluedartTrackingAuthService authService;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final BluedartTrackingAuthService authService;
 
-private final RestTemplate restTemplate=new RestTemplate();
+    public BluedartTrackingService(BluedartTrackingAuthService authService) {
+        this.authService=authService;
+    }
 
-public BluedartTrackingService(BluedartTrackingAuthService authService) {
-    this.authService=authService;
-}
 
-public String trackShipment(String awbNo) {
+    public String trackShipment(String awbNumber) {
+        String jwtToken= authService.getJwtToken(); //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdWJqZWN0LXN1YmplY3QiLCJhdWQiOlsiYXVkaWVuY2UxIiwiYXVkaWVuY2UyIl0sImlzcyI6InVybjovL2FwaWdlZS1lZGdlLUpXVC1wb2xpY3ktdGVzdCIsImV4cCI6MTc2ODgwMDYzMSwiaWF0IjoxNzY4NzE0MjMxLCJqdGkiOiI5ZGJiMjMyYS1hN2FlLTRlMjktYTg0Ny1kNzc1NzgzNTZhOWYifQ.1h4w7-6uzEZauJ0vxZNOxGLKuX1jujG-RHCbJOYP3QA";//authService.getJwtToken();
+       UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromUriString(baseUrl + trackingPath)
+                .queryParam("handler", "tnt")
+                .queryParam("action", "custawbquery")
+                .queryParam("loginid", loginId)
+                .queryParam("awb", "awb")
+                .queryParam("numbers", awbNumber)
+                .queryParam("format", "xml")
+                .queryParam("lickey", licenseKey)
+                .queryParam("verno", "1")
+                .queryParam("scan", "1");
 
-    // for temp bedugging
-    System.out.println("Executing track shipment service..");
-    System.out.println("Login ID" +loginId);
-    System.out.println("Base URL :"+baseUrl);
-    System.out.println("Lic :"+licenseKey);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("JWTToken", jwtToken);
+        headers.setAccept(List.of(MediaType.TEXT_PLAIN));
 
-    String JWTToken=authService.getJwtToken();
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-    System.out.println("JWTToken : "+JWTToken);
+        ResponseEntity<String> response =
+                restTemplate.exchange(
+                        uriBuilder.toUriString(),
+                        HttpMethod.GET,
+                        entity,
+                        String.class
+                );
 
-    UriComponentsBuilder uriBuilder=UriComponentsBuilder
-    .fromUriString(baseUrl)
-    .queryParam("handler", "tnt")
-        .queryParam("action", "custawbquery")
-        .queryParam("loginid", loginId)
-        .queryParam("awb", "awb")
-        .queryParam("numbers", awbNo)
-        .queryParam("format", "xml")
-        .queryParam("lickey", licenseKey)
-        .queryParam("verno", "1")
-        .queryParam("scan", "1");
-
-HttpHeaders headers=new HttpHeaders();
-headers.set("JWTToken",JWTToken);
-headers.setAccept(List.of(MediaType.APPLICATION_XML));
-HttpEntity<Void> entity=new HttpEntity<>(headers);
-
-ResponseEntity<String> response=restTemplate.exchange(
-    uriBuilder.toUriString(),
-    HttpMethod.GET,
-    entity,
-    String.class
-);
-
-return response.getBody();
-}
-
+        return response.getBody();
+    }
 }

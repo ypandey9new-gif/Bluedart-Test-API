@@ -54,4 +54,18 @@
   "cancelledAt" : "2026-01-15T07:55:07.655619226",
   "source" : "SINGLE",
   "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001507971",
+  "status" : "SUCCESS",
+  "message" : "Your registered shipment 90001507971 has been cancelled successfully",
+  "cancelledAt" : "2026-01-19T13:01:11.934192532",
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
+}, {
+  "awbNo" : "90001507982",
+  "status" : "SUCCESS",
+  "message" : "Your registered shipment 90001507982 has been cancelled successfully",
+  "cancelledAt" : "2026-01-19T13:06:07.042561917",
+  "source" : "SINGLE",
+  "requestedBy" : "SYSTEM"
 } ]
